@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+ system-service:
+  image: lucasl18/lucas-api-finalproject
+  ports:
+    - "8000:8000"
+  volumes:
+    - sqlite_colruyt_volume:/code/sqlitedb
+
+volumes:
+  sqlite_colruyt_volume:
