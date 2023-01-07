@@ -1,10 +1,28 @@
 from pydantic import BaseModel
 
 
+class PurchaseBase(BaseModel):
+    pass
+
+
+class PurchaseCreate(PurchaseBase):
+    pass
+
+
+class Purchase(PurchaseBase):
+    id: int
+    customer_id: int
+    product_id: int
+
+    class Config:
+        orm_mode = True
+
+
 class ProductBase(BaseModel):
     name: str
     price: float
     category: str
+    barcode: int
 
 
 class ProductCreate(ProductBase):
@@ -16,8 +34,18 @@ class Product(ProductBase):
     location_id: int
     customer_id: int
 
+    products: list[Purchase] = []
+
     class Config:
         orm_mode = True
+
+
+class ProductUpdate(BaseModel):
+    name: str = None
+    price: float = None
+    category: str = None
+    location_id: int = None
+    customer_id: int = None
 
 
 class UserBase(BaseModel):
@@ -31,14 +59,15 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     is_active: bool
-    products: list[Product] = []
+
+    purchases: list[Purchase] = []
 
     class Config:
         orm_mode = True
 
 
 class LocationBase(BaseModel):
-    city: str
+    city: str | None = None
     zipcode: int
     chief: str
 
@@ -49,7 +78,10 @@ class LocationCreate(LocationBase):
 
 class Location(LocationBase):
     id: int
-    products: list[Product] = []
+
+    branch: list[Product] = []
 
     class Config:
         orm_mode = True
+
+

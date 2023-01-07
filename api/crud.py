@@ -26,8 +26,8 @@ def create_user(db: Session, user: schemas.UserCreate):
     return db_user
 
 
-def create_product(db: Session, product: schemas.ProductCreate):
-    db_product = models.Product(**product.dict())
+def create_product(db: Session, product: schemas.ProductCreate, location_id: int):
+    db_product = models.Product(**product.dict(), location_id=location_id)
     db.add(db_product)
     db.commit()
     db.refresh(db_product)
@@ -58,25 +58,42 @@ def get_location(db: Session, location_id: int):
     return db.query(models.Location).filter(models.Location.id == location_id).first()
 
 
-def get_products_in_location(db: Session, city: str):
-    products_per_location = {
-        db.query(models.Location.city, func.count(models.Product.id))
-            .join(models.Product)
-            .filter(models.Location.city == city)
-            .group_by(models.Location.city)
-            .all()
-    }
-
-    return products_per_location
+def update_product(db: Session, product: schemas.Product, update: schemas.ProductUpdate):
+    for key, value in update.dict(exclude_unset=True).items():
+        setattr(product, key, value)
+    db.add(product)
+    db.commit()
+    db.refresh(product)
+    return product
 
 
-def get_bought_products(db: Session, user_id: int):
-    bought_products_per_user = {
-        db.query(models.User.id)
-            .join(models.Product)
-            .filter(models.User.id == user_id)
-            .order_by(models.Product.id)
-            .all()
-    }
+def delete_product(db: Session, product_id: int):
+    product = db.get(models.Product, product_id)
+    if not product:
+        return None
+    db.delete(product)
+    db.commit()
+    return {"Product removed": True}
 
-    return bought_products_per_user
+# def get_products_in_location(db: Session, city: str):
+#     products_per_location = {
+#         db.query(models.Location.city, func.count(models.Product.id))
+#             .join(models.Product)
+#             .filter(models.Location.city == city)
+#             .group_by(models.Location.city)
+#             .all()
+#     }
+#
+#     return products_per_location
+#
+#
+# def get_bought_products(db: Session, user_id: int):
+#     bought_products_per_user = {
+#         db.query(models.User.id)
+#             .join(models.Product)
+#             .filter(models.User.id == user_id)
+#             .order_by(models.Product.id)
+#             .all()
+#     }
+#
+#     return bought_products_per_user
