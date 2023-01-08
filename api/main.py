@@ -41,7 +41,7 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db:
         )
     # Add the JWT case sub with the subject(user)
     access_token = auth.create_access_token(
-        data={"sub": user.email}
+        data={"sub": user.name}
     )
     #Return the JWT as a bearer token to be placed in the headers
     return {"access_token": access_token, "token_type": "bearer"}
