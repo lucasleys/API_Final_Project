@@ -22,11 +22,10 @@ class ProductBase(BaseModel):
     name: str
     price: float
     category: str
-    barcode: int
 
 
 class ProductCreate(ProductBase):
-    pass
+    barcode: int
 
 
 class Product(ProductBase):

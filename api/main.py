@@ -74,7 +74,7 @@ def get_locations(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
 
 
 @app.post("/location/", response_model=schemas.Location)
-def create_user(location: schemas.LocationCreate, db: Session = Depends(get_db)):
+def create_location(location: schemas.LocationCreate, db: Session = Depends(get_db)):
     location = crud.get_location(db, location.zipcode)
     if location:
         raise HTTPException(status_code=400, detail="location already listed")

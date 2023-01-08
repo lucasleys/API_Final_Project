@@ -27,7 +27,10 @@ def create_user(db: Session, user: schemas.UserCreate):
 
 
 def create_product(db: Session, product: schemas.ProductCreate, location_id: int):
-    db_product = models.Product(**product.dict(), location_id=location_id)
+    if product is not None:
+        db_product = models.Product(**product.dict(), location_id=location_id)
+    else:
+        return product
     db.add(db_product)
     db.commit()
     db.refresh(db_product)
