@@ -54,7 +54,7 @@ def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), to
 
 
 @app.get("/users/me", response_model=schemas.User)
-def read_users_me(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+def get_users_me(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
     current_user = auth.get_current_active_user(db, token)
     return current_user
 
@@ -68,7 +68,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 
 @app.get("/products/", response_model=list[schemas.Product])
-def read_products(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+def get_products(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
     products = crud.get_products(db, skip=skip, limit=limit)
     return products
 
