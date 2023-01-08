@@ -25,13 +25,11 @@ class ProductBase(BaseModel):
 
 
 class ProductCreate(ProductBase):
-    barcode: int
+    pass
 
 
 class Product(ProductBase):
     id: int
-    location_id: int
-    customer_id: int
 
     products: list[Purchase] = []
 

@@ -73,17 +73,17 @@ def get_products(skip: int = 0, limit: int = 100, db: Session = Depends(get_db),
     return products
 
 
-@app.post("/product/{location_id}/location", response_model=schemas.Product)
-def create_product(location_id: int, product: schemas.ProductCreate, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
-    product = crud.get_product(db, product.barcode)
-    if product:
+@app.post("/product/", response_model=schemas.Product)
+def create_product(product: schemas.ProductCreate, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    db_product = crud.get_product(db, product.name)
+    if db_product:
         raise HTTPException(status_code=400, detail="product already listed")
-    return crud.create_product(db=db, product=product, location_id=location_id)
+    return crud.create_product(db=db, product=product)
 
 
-@app.put("/product/{product_id}", response_model=schemas.Product)
-def update_product(product_id: int, update: schemas.ProductUpdate, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
-    product = crud.get_product(db, product_id)
+@app.put("/product/{product_name}", response_model=schemas.Product)
+def update_product(product_name: str, update: schemas.ProductUpdate, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    product = crud.get_product(db, product_name)
     if not product:
         raise HTTPException(status_code=404, detail="product not found")
     return crud.update_product(db=db, product=product, update=update)
@@ -105,7 +105,7 @@ def get_locations(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
 
 @app.post("/location/", response_model=schemas.Location)
 def create_location(location: schemas.LocationCreate, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
-    location = crud.get_location(db, location.zipcode)
-    if location:
+    db_location = crud.get_location(db, location.zipcode)
+    if db_location:
         raise HTTPException(status_code=400, detail="location already listed")
     return crud.create_location(db=db, location=location)

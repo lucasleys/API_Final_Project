@@ -27,24 +27,30 @@ def create_user(db: Session, user: schemas.UserCreate):
     return db_user
 
 
-def create_product(db: Session, product: schemas.ProductCreate, location_id: int):
-    if product is not None:
-        db_product = models.Product(**product.dict(), location_id=location_id)
-        db.add(db_product)
-        db.commit()
-        db.refresh(db_product)
-        return db_product
+def create_product(db: Session, product: schemas.ProductCreate):
+    # if product is not None:
+    #     db_product = models.Product(**product.dict(), customer_id=customer_id)
+    #     db.add(db_product)
+    #     db.commit()
+    #     db.refresh(db_product)
+    #     return db_product
+    #
+    # else:
+    #     return product
 
-    else:
-        return product
+    db_product = models.Product(**product.dict())
+    db.add(db_product)
+    db.commit()
+    db.refresh(db_product)
+    return db_product
 
 
 def get_products(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Product).offset(skip).limit(limit).all()
 
 
-def get_product(db: Session, product_id: int):
-    return db.query(models.Product).filter(models.Product.id == product_id).first()
+def get_product(db: Session, product_name: str):
+    return db.query(models.Product).filter(models.Product.name == product_name).first()
 
 
 def create_location(db: Session, location: schemas.LocationCreate):
