@@ -3,6 +3,7 @@ from sqlalchemy import func
 
 import models
 import schemas
+import auth
 
 
 def get_user(db: Session, user_id: int):
@@ -18,8 +19,8 @@ def get_user_by_name(db: Session, name: str):
 
 
 def create_user(db: Session, user: schemas.UserCreate):
-    fake_hashed_password = user.password + "notreallyhashed"
-    db_user = models.User(name=user.name, hashed_password=fake_hashed_password)
+    hashed_password = auth.get_password_hash(user.password)
+    db_user = models.User(name=user.name, hashed_password=hashed_password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -29,12 +30,13 @@ def create_user(db: Session, user: schemas.UserCreate):
 def create_product(db: Session, product: schemas.ProductCreate, location_id: int):
     if product is not None:
         db_product = models.Product(**product.dict(), location_id=location_id)
+        db.add(db_product)
+        db.commit()
+        db.refresh(db_product)
+        return db_product
+
     else:
         return product
-    db.add(db_product)
-    db.commit()
-    db.refresh(db_product)
-    return db_product
 
 
 def get_products(db: Session, skip: int = 0, limit: int = 100):
