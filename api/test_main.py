@@ -78,12 +78,11 @@ def test_get_locations():
 
 
 def test_create_user():
-    new_user = {'name': 'kato', 'password' : 'kato123'}
+    new_user = {'name': 'bieke', 'password' : 'bieke123'}
     response = requests.post('http://127.0.0.1:8000/user/', data=json.dumps(new_user))
     assert response.status_code == 200
     data = response.json()
     assert type(data["name"]) == str
-    assert type(data["password"]) == str
 
 
 def test_create_product():
@@ -97,7 +96,7 @@ def test_create_product():
 
 
 def test_create_location():
-    new_location = {'city': 'Vosselaar', 'zipcode' : 2350, 'chief': 'Jonas'}
+    new_location = {'city': 'Oud-Turnhout', 'zipcode' : 2360, 'chief': 'Henk'}
     response = requests.post('http://127.0.0.1:8000/location/', data=json.dumps(new_location), headers=headerswithtoken)
     assert response.status_code == 200
     data = response.json()
@@ -108,7 +107,7 @@ def test_create_location():
 
 def test_update_product():
     product_name = 'bugels'
-    data = {'name': 'bugels', 'price': 1.30, 'category': 'chips'}
+    data = {'name': 'bugels', 'price': 5.30, 'category': 'chips'}
     response = requests.put(f'http://127.0.0.1:8000/product/{product_name}', json=data, headers=headerswithtoken)
     assert response.status_code == 200
 
@@ -119,7 +118,7 @@ def test_update_product():
     assert 'price' in data
     assert 'category' in data
     assert data['name'] == 'bugels'
-    assert data['price'] == 1.30
+    assert data['price'] == 5.30
     assert data['category'] == 'chips'
 
 
