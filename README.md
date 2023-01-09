@@ -114,6 +114,38 @@ Doormiddel van deze endpoint kunt u een locatie aanmaken door de stad, postcode 
 ![Image postman Post Location](/images/Postman_Post_Location.png)
 
 ## API docs screenshots
+### Authorisatie
+![Image Authorisatie](/images/Authorisatie.png)
+
+### POST /token
+![Image Docs Post /token](/images/Docs_Post_Token.png)  
+
+### GET Users 
+![Image Docs Get Users](/images/Docs_Get_Users.png) 
+
+### GET Current User 
+![Image Docs Get Active User](/images/Docs_Get_Active_User.png) 
+
+### POST User
+![Image Docs Post User](/images/Docs_Post_User.png)
+
+### GET Products 
+![Image Docs Get Products](/images/Docs_Get_Products.png) 
+
+### POST Product
+![Image Docs Post Product](/images/Docs_Post_Product.png) 
+
+### PUT Product
+![Image Docs Put Product](/images/Docs_Put_Product.png)
+
+### DELETE Product 
+![Image Docs Delete Product](/images/Docs_Delete_Product.png)
+
+### GET Locations  
+![Image Docs Get Locations](/images/Docs_Get_Locations.png)
+
+### POST Location 
+![Image Docs Post Location](/images/Docs_Post_Location.png)
 
 ## Author
 Lucas Leys 
